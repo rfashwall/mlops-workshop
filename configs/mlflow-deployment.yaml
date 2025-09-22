@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-server
+  namespace: mlflow
+  labels:
+    app: mlflow
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+      component: server
+  template:
+    metadata:
+      labels:
+        app: mlflow
+        component: server
+    spec:
+      containers:
+      - name: mlflow-server
+        image: python:3.9-slim
+        ports:
+        - containerPort: 5000
+          name: http
+        env:
+        - name: MLFLOW_BACKEND_STORE_URI
+          value: "sqlite:///mlflow/mlflow.db"
+        - name: MLFLOW_DEFAULT_ARTIFACT_ROOT
+          value: "/mlflow/artifacts"
+        - name: MLFLOW_HOST
+          value: "0.0.0.0"
+        - name: MLFLOW_PORT
+          value: "5000"
+        command:
+        - /bin/bash
+        - -c
+        - |
+          pip install mlflow==2.8.1 psycopg2-binary boto3
+          mkdir -p /mlflow/artifacts
+          mlflow server \
+            --backend-store-uri $MLFLOW_BACKEND_STORE_URI \
+            --default-artifact-root $MLFLOW_DEFAULT_ARTIFACT_ROOT \
+            --host $MLFLOW_HOST \
+            --port $MLFLOW_PORT \
+            --serve-artifacts
+        volumeMounts:
+        - name: mlflow-storage
+          mountPath: /mlflow
+        - name: mlflow-artifacts
+          mountPath: /mlflow/artifacts
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+      volumes:
+      - name: mlflow-storage
+        persistentVolumeClaim:
+          claimName: mlflow-pvc
+      - name: mlflow-artifacts
+        persistentVolumeClaim:
+          claimName: mlflow-artifacts-pvc
+      restartPolicy: Always
