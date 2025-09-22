@@ -8,10 +8,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         git \
         build-essential \
         ca-certificates \
-        gnupg \
-        lsb-release \
-        software-properties-common \
-        apt-transport-https \
         jq \
         vim \
         htop \
@@ -30,41 +26,40 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     && mv kubectl /usr/local/bin/
 
 # Install Helm
-RUN curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list \
-    && apt-get update \
-    && apt-get install helm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Terraform
-RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
-    && apt-get update && apt-get install terraform \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
+    && ./get_helm.sh \
+    && rm get_helm.sh
 
 # Switch to vscode user for Python package installations
 USER vscode
 
-# Install Python packages
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install --user -r /tmp/requirements.txt
+# Upgrade pip first
+RUN pip install --user --upgrade pip setuptools wheel
 
-# Install additional ML tools
-RUN pip install --user \
-    bentoml \
-    kubeflow-pipelines \
-    kfp \
-    prometheus-client \
-    grafana-api \
-    onnx \
-    onnxruntime \
-    tensorrt \
-    tritonclient[all]
+# Install core Python packages first
+RUN pip install --user --no-cache-dir \
+    numpy==1.24.4 \
+    pandas==2.0.3 \
+    matplotlib==3.7.2 \
+    scikit-learn==1.3.2 \
+    jupyter==1.0.0 \
+    jupyterlab==4.0.9 \
+    fastapi==0.104.1 \
+    uvicorn==0.24.0 \
+    requests==2.31.0
 
-# Set up Jupyter Lab
-RUN pip install --user jupyterlab jupyterlab-git
+# Install ML packages
+RUN pip install --user --no-cache-dir \
+    torch==2.1.2 \
+    transformers==4.36.2 \
+    mlflow==2.8.1 \
+    prometheus-client==0.19.0
+
+# Install Kubernetes client
+RUN pip install --user --no-cache-dir \
+    kubernetes==28.1.0 \
+    pyyaml==6.0.1
 
 # Create workspace directories
 RUN mkdir -p /home/vscode/workspace
@@ -77,4 +72,4 @@ EXPOSE 3000 5000 8080 8888 9090 9091
 
 # Set environment variables
 ENV PATH="/home/vscode/.local/bin:${PATH}"
-ENV PYTHONPATH="/home/vscode/workspace:${PYTHONPATH}"
+ENV PYTHON_PATH="/home/vscode/workspace:${PYTHON_PATH}"
