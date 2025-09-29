@@ -61,7 +61,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "echo 'Container ready! Run: bash scripts/setup-environment.sh' to complete setup",
+  "postCreateCommand": "bash scripts/install-ml-packages.sh",
   "remoteUser": "vscode",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"

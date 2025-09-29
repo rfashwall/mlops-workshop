@@ -142,6 +142,10 @@ EOF
 
 chmod +x scripts/validate-participant-env.sh
 
+# Install ML packages
+echo "🔧 Installing ML packages..."
+bash scripts/install-ml-packages.sh
+
 # Run environment validation
 echo "🔍 Running initial environment validation..."
 bash scripts/validate-environment.sh

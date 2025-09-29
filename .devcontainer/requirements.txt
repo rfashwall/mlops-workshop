@@ -1,70 +1,12 @@
-# Core ML Libraries - Latest versions
-torch
-transformers
-datasets
-scikit-learn
-numpy
-pandas
-matplotlib
-seaborn
-
-# MLOps Tools - Latest versions
-mlflow
-bentoml
-huggingface-hub
-wandb
-optuna
-
-# Model Serving and API - Latest versions
+# Essential packages only - installed during container build
 fastapi
 uvicorn
-pydantic
 requests
-streamlit
-
-# Monitoring and Observability - Latest versions
+pyyaml
+kubernetes
 prometheus-client
-psutil
-grafana-api
-
-# Pipeline Orchestration - Latest versions
-kubeflow-pipelines
-kfp
-apache-airflow
-
-# Model Optimization - Latest versions
-onnx
-onnxruntime
-optimum
-xgboost
-lightgbm
-
-# Data Processing - Latest versions
-pillow
-opencv-python-headless
-librosa
-
-# Development and Testing - Latest versions
-pytest
-pytest-cov
-black
-flake8
-mypy
-
-# Jupyter and Notebooks - Latest versions
 jupyter
 jupyterlab
-ipywidgets
-plotly
 
-# Kubernetes and Infrastructure - Latest versions
-kubernetes
-pyyaml
-jinja2
-
-# Utilities - Latest versions
-python-dotenv
-click
-rich
-tqdm
-typer
+# Heavy ML packages are installed post-creation via scripts/install-ml-packages.sh
+# This avoids disk space issues during container build

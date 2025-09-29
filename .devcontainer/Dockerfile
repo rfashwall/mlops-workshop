@@ -37,29 +37,17 @@ USER vscode
 # Upgrade pip first
 RUN pip install --user --upgrade pip setuptools wheel
 
-# Install core Python packages first
+# Install only essential lightweight packages during build
+# Heavy ML packages will be installed post-creation to avoid disk space issues
 RUN pip install --user --no-cache-dir \
-    numpy \
-    pandas \
-    matplotlib \
-    scikit-learn \
-    jupyter \
-    jupyterlab \
     fastapi \
     uvicorn \
-    requests
-
-# Install ML packages
-RUN pip install --user --no-cache-dir \
-    torch \
-    transformers \
-    mlflow \
-    prometheus-client
-
-# Install Kubernetes client
-RUN pip install --user --no-cache-dir \
+    requests \
+    pyyaml \
     kubernetes \
-    pyyaml
+    prometheus-client \
+    jupyter \
+    jupyterlab
 
 # Create workspace directories
 RUN mkdir -p /home/vscode/workspace
@@ -72,4 +60,4 @@ EXPOSE 3000 5000 8080 8888 9090 9091
 
 # Set environment variables
 ENV PATH="/home/vscode/.local/bin:${PATH}"
-ENV PYTHON_PATH="/home/vscode/workspace:${PYTHON_PATH}"
+ENV PYTHONPATH="/home/vscode/workspace:${PYTHONPATH}"
