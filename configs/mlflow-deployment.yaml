@@ -37,7 +37,7 @@ spec:
         - /bin/bash
         - -c
         - |
-          pip install mlflow==2.8.1 psycopg2-binary boto3
+          pip install --upgrade mlflow psycopg2-binary boto3 prometheus-client
           mkdir -p /mlflow/artifacts
           mlflow server \
             --backend-store-uri $MLFLOW_BACKEND_STORE_URI \

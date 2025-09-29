@@ -8,11 +8,6 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest",
       "enableNonRootDocker": "true"
-    },
-    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-      "version": "latest",
-      "helm": "latest",
-      "minikube": "none"
     }
   },
   "customizations": {
@@ -66,7 +61,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "bash scripts/setup-environment.sh",
+  "postCreateCommand": "echo 'Container ready! Run: bash scripts/setup-environment.sh' to complete setup",
   "remoteUser": "vscode",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"

@@ -29,7 +29,11 @@ fi
 
 # Create initial checkpoint branches
 echo "🌿 Creating checkpoint branches..."
-bash scripts/create-checkpoints.sh
+if [ -f "scripts/create-checkpoints.sh" ]; then
+    bash scripts/create-checkpoints.sh
+else
+    echo "ℹ️  Checkpoint script not found, skipping checkpoint creation"
+fi
 
 # Set up Kind cluster configuration
 echo "🐳 Preparing Kind cluster configuration..."

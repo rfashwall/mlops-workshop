@@ -1,66 +1,56 @@
-# Core ML Libraries
-torch>=2.0.0
-transformers>=4.30.0
-datasets>=2.12.0
-scikit-learn>=1.3.0
-numpy>=1.24.0
-pandas>=2.0.0
-matplotlib>=3.7.0
-seaborn>=0.12.0
+# Core ML Libraries - Latest versions
+torch
+transformers
+datasets
+scikit-learn
+numpy
+pandas
+matplotlib
+seaborn
 
-# MLOps Tools
-mlflow>=2.5.0
-bentoml>=1.1.0
-huggingface-hub>=0.16.0
-wandb>=0.15.0
+# MLOps Tools - Latest versions
+mlflow
+bentoml
+huggingface-hub
+wandb
 
-# Model Serving and API
-fastapi>=0.100.0
-uvicorn>=0.22.0
-pydantic>=2.0.0
-requests>=2.31.0
+# Model Serving and API - Latest versions
+fastapi
+uvicorn
+pydantic
+requests
 
-# Monitoring and Observability
-prometheus-client>=0.17.0
-grafana-api>=1.0.3
-psutil>=5.9.0
+# Monitoring and Observability - Latest versions
+prometheus-client
+psutil
 
-# Pipeline Orchestration
-kubeflow-pipelines>=2.0.0
-kfp>=2.0.0
-apache-airflow>=2.6.0
+# Pipeline Orchestration - Latest versions
+kubeflow-pipelines
+kfp
 
-# Model Optimization
-onnx>=1.14.0
-onnxruntime>=1.15.0
-optimum>=1.9.0
+# Model Optimization - Latest versions
+onnx
+onnxruntime
 
-# Data Processing
-pillow>=10.0.0
-opencv-python>=4.8.0
-librosa>=0.10.0
+# Data Processing - Latest versions
+pillow
+opencv-python-headless
 
-# Development and Testing
-pytest>=7.4.0
-pytest-cov>=4.1.0
-black>=23.7.0
-flake8>=6.0.0
-mypy>=1.4.0
-pre-commit>=3.3.0
+# Development and Testing - Latest versions
+pytest
+black
 
-# Jupyter and Notebooks
-jupyter>=1.0.0
-jupyterlab>=4.0.0
-ipywidgets>=8.0.0
-plotly>=5.15.0
+# Jupyter and Notebooks - Latest versions
+jupyter
+jupyterlab
+ipywidgets
 
-# Kubernetes and Infrastructure
-kubernetes>=27.2.0
-pyyaml>=6.0.0
-jinja2>=3.1.0
+# Kubernetes and Infrastructure - Latest versions
+kubernetes
+pyyaml
 
-# Utilities
-python-dotenv>=1.0.0
-click>=8.1.0
-rich>=13.4.0
-tqdm>=4.65.0
+# Utilities - Latest versions
+python-dotenv
+click
+rich
+tqdm
